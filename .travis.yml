@@ -1,0 +1,21 @@
+sudo: required
+
+language: node_js
+
+node_js:
+  - "4.2"
+  - "0.12"
+
+services:
+  - docker
+
+before_install:
+  - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+after_success:
+  - docker build -t pred2k3/aqi-bot .
+  - docker push pred2k3/aqi-bot
+
+cache:
+  directories:
+    - node_modules
