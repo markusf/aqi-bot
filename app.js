@@ -1,9 +1,18 @@
 var environment = process.env.NODE_ENV || 'dev';
 var config = require('./config')[environment];
 var builder = require('botbuilder');
+var wechatBotBuilder = require('botbuilder-wechat');
 var luisDialog = new builder.LuisDialog(config.luisEndpoint);
-var bot = new builder.TextBot();
 var aqiService = require('./services/aqiService')(config.aqiServiceEndpoint);
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+
+var bot = new wechatBotBuilder.WechatBot({
+  wechatAppId: process.env.wechatAppId,
+  wechatSecret: process.env.wechatSecret,
+  wechatToken: process.env.wechatToken
+});
 
 bot.add('/', luisDialog);
 
@@ -31,4 +40,14 @@ luisDialog.on('AQI', [
 
 luisDialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."));
 
-bot.listenStdin();
+app.use('/wc', bot.getWechatCallbackHandler());
+
+app.get('*', function(req, res) {
+  res.status(404).end();
+});
+
+var port = process.env.PORT || 3000;
+
+http.listen(port, function() {
+  console.log('== Server started ==');
+});
