@@ -1,5 +1,5 @@
 var request = require('request');
-var Q = require('Q');
+var Q = require('q');
 
 // TODO: use promises
 function getService(endpoint) {
