@@ -6,8 +6,8 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
 RUN npm install
 
-COPY app.js /usr/src/app
-COPY config.js /usr/src/app
+COPY app.js /usr/src/app/
+COPY config.js /usr/src/app/
 COPY services /usr/src/app/services
 
 CMD [ "node", "app.js" ]
