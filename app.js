@@ -63,7 +63,7 @@ luisDialog.on('AQI', [
 luisDialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."));
 
 // change back to /wc
-app.use('/bot/wc', bot.getWechatCallbackHandler());
+app.use('/wc', bot.getWechatCallbackHandler());
 
 app.get('*', function(req, res) {
   res.status(404).end();
