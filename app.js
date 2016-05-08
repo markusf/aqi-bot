@@ -15,14 +15,8 @@ var bot = new wechatBotBuilder.WechatBot({
   wechatSecret: process.env.wechatSecret,
   wechatToken: process.env.wechatToken,
   voiceMessageParser: function(payload, done) {
-    // paylod is a buffer containing an AMR Audio File
-    // parsing logic goes in here
-    // call service like ibm watson or microsoft speech
-    console.log('convert');
-
     audioConverter.convertAmrToWav(payload)
       .then(function(wavPayload) {
-        console.log('wav received');
 
         return bingTextToSpeech.convertToSpeech(wavPayload)
           .then(function(text) {
